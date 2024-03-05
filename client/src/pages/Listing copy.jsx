@@ -9,43 +9,46 @@ import {
     FaBath,
     FaBed,
     FaChair,
+    FaMapMarkedAlt,
     FaMapMarkerAlt,
     FaParking,
     FaShare,
-} from 'react-icons/fa'
-import Contact from '../components/Contact.jsx'
+} from 'react-icons/fa';
+import Contact from '../components/Contact.jsx';
 
-export default function Listing() {
-    const params = useParams()
-    SwiperCore.use([Navigation])
-    const [listing, setListing] = useState(null)
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(false)
-    const [copied, setCopied] = useState(false)
-    const [contact, setContact] = useState(false)
-    const { currentUser } = useSelector((state) => state.user)
+// https://sabe.io/blog/javascript-format-numbers-commas#:~:text=The%20best%20way%20to%20format,format%20the%20number%20with%20commas.
+
+export default function Listingjj() {
+    SwiperCore.use([Navigation]);
+    const [listing, setListing] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
+    const [copied, setCopied] = useState(false);
+    const [contact, setContact] = useState(false);
+    const params = useParams();
+    const { currentUser } = useSelector((state) => state.user);
 
     useEffect(() => {
         const fetchListing = async () => {
             try {
-                setLoading(true)
-                const res = await fetch(`/api/listing/get/${params.listingId}`)
-                const data = await res.json()
+                setLoading(true);
+                const res = await fetch(`/api/listing/get/${params.listingId}`);
+                const data = await res.json();
                 if (data.success === false) {
-                    setError(true)
-                    setLoading(false)
-                    return
+                    setError(true);
+                    setLoading(false);
+                    return;
                 }
-                setListing(data)
-                setLoading(false)
-                setError(false)
+                setListing(data);
+                setLoading(false);
+                setError(false);
             } catch (error) {
-                setError(true)
-                setLoading(false)
+                setError(true);
+                setLoading(false);
             }
-        }
-        fetchListing()
-    }, [params.listingId])
+        };
+        fetchListing();
+    }, [params.listingId]);
 
     return (
         <main>
@@ -72,11 +75,11 @@ export default function Listing() {
                         <FaShare
                             className='text-slate-500'
                             onClick={() => {
-                                navigator.clipboard.writeText(window.location.href)
-                                setCopied(true)
+                                navigator.clipboard.writeText(window.location.href);
+                                setCopied(true);
                                 setTimeout(() => {
-                                    setCopied(false)
-                                }, 2000)
+                                    setCopied(false);
+                                }, 2000);
                             }}
                         />
                     </div>
@@ -85,15 +88,15 @@ export default function Listing() {
                             Link copied!
                         </p>
                     )}
-                    <div className='flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4 bg-white shadow-md rounded-lg'>
+                    <div className='flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4'>
                         <p className='text-2xl font-semibold'>
-                            {listing.name} - &#8377;{' '}
+                            {listing.name} - ${' '}
                             {listing.offer
                                 ? listing.discountPrice.toLocaleString('en-US')
                                 : listing.regularPrice.toLocaleString('en-US')}
                             {listing.type === 'rent' && ' / month'}
                         </p>
-                        <p className='flex items-center mt-2 gap-2 text-gray-600 text-sm'>
+                        <p className='flex items-center mt-6 gap-2 text-slate-600  text-sm'>
                             <FaMapMarkerAlt className='text-green-700' />
                             {listing.address}
                         </p>
@@ -103,11 +106,11 @@ export default function Listing() {
                             </p>
                             {listing.offer && (
                                 <p className='bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
-                                    &#8377;{+listing.regularPrice - +listing.discountPrice} OFF
+                                    ${+listing.regularPrice - +listing.discountPrice} OFF
                                 </p>
                             )}
                         </div>
-                        <p className='text-gray-800'>
+                        <p className='text-slate-800'>
                             <span className='font-semibold text-black'>Description - </span>
                             {listing.description}
                         </p>
@@ -146,5 +149,5 @@ export default function Listing() {
                 </div>
             )}
         </main>
-    )
+    );
 }
