@@ -196,13 +196,13 @@ export default function CreateListing() {
                                 type="number"
                                 id="regularPrice"
                                 min="0"
-                                max='10000000'
                                 required
                                 className='p-3 border border-gray-300 rounded-lg' onChange={handleChange}
                                 value={formData.regularPrice} />
                             <div className='flex flex-col items-center' >
                                 <p>Regular Price</p>
-                                <span className='text-sm'>(&#x20B9;/Month)</span>
+                                {formData.type === 'sell' ? (<span className='text-sm'>(&#x20B9;)</span>) : <span className='text-sm'>(&#x20B9;/Month)</span>}
+
                             </div>
 
                         </div>
@@ -213,7 +213,6 @@ export default function CreateListing() {
                                     type="number"
                                     id="discountPrice"
                                     min="0"
-                                    max='10000000'
                                     required
                                     className='p-3 border border-gray-300 rounded-lg' onChange={handleChange}
                                     value={formData.discountPrice} />
